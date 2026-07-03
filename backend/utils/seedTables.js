@@ -34,6 +34,14 @@ const seedTables = async () => {
   console.log(`Seed complete. ${created} new table(s) created, ${tableSeedData.length - created} already existed.`);
 };
 
+const ensureDefaultTables = async () => {
+  const tableCount = await Table.countDocuments();
+
+  if (tableCount === 0) {
+    await seedTables();
+  }
+};
+
 if (require.main === module) {
   (async () => {
     await connectDB();
@@ -47,3 +55,4 @@ if (require.main === module) {
 }
 
 module.exports = seedTables;
+module.exports.ensureDefaultTables = ensureDefaultTables;

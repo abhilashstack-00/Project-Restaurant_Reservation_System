@@ -1,6 +1,7 @@
 const Table = require('../models/Table');
 const Reservation = require('../models/Reservation');
 const ApiError = require('../utils/ApiError');
+const { ensureDefaultTables } = require('../utils/seedTables');
 
 /**
  * RESERVATION ALLOCATION ALGORITHM
@@ -28,6 +29,8 @@ const ApiError = require('../utils/ApiError');
  * candidate table automatically.
  */
 const findAndBookTable = async ({ userId, date, timeSlot, guests }) => {
+  await ensureDefaultTables();
+
   const candidateTables = await Table.find({
     isActive: true,
     capacity: { $gte: guests },
