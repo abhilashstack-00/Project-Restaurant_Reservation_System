@@ -33,11 +33,8 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
-  const { usingMemoryServer } = await connectDB();
-
-  if (usingMemoryServer) {
-    await seedTables();
-  }
+  await connectDB();
+  await seedTables();
 
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
